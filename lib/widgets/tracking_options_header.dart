@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tv_plus/constants/constants.dart';
 
 class TrackingOptionsHeader extends StatelessWidget {
   final String header;
@@ -7,22 +8,22 @@ class TrackingOptionsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: Constants.getTrackingOptionsHeaderPadding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             header,
             style: const TextStyle(
-              fontSize: 24,
+              fontSize: 18,
               color: Colors.white,
               fontWeight: FontWeight.bold
             ),
           ),
-          const SizedBox(width: 15,),
+          const SizedBox(width: 16,),
           const Icon(
             Icons.arrow_forward_ios_outlined,
-            size: 24,
+            size: 18,
             color: Colors.white,
           )
         ],

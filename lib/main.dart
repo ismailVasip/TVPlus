@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tv_plus/constants/constants.dart';
 import 'package:tv_plus/pages/home_page.dart';
 
 void main() {
@@ -14,8 +15,9 @@ class TVPlusApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "TV+ App",
       theme: ThemeData(
-        scaffoldBackgroundColor:const Color.fromRGBO(27, 31, 40, 1),
+        scaffoldBackgroundColor:Constants.getScaffoldBackgroundColor,
         primarySwatch: Colors.blueGrey,
+        splashColor: Colors.transparent,//navbar anim
       ),
       home:const HomePage(),
     );

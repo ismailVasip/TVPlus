@@ -10,22 +10,17 @@ class CategoryItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 14,),
+        const SizedBox(height: 16,),
         Container(
-          margin: const EdgeInsets.only(left: 34),
+          margin: Constants.getCategoryNameMargin,
           child: Text(
             category,
-            style: Constants.getCategoriesStyle(),
+            style: Constants.getCategoryNameStyle(),
           ),
         ),
-        const SizedBox(height: 14,),
-        const Divider(
-            indent: 34,
-            endIndent: 34,
-            thickness: 2,
-            color :Colors.white60
-        )
+        const SizedBox(height: 16,),
+        Constants.getBetweenCategoryDivider(),
       ],
-    );;
+    );
   }
 }

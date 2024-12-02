@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tv_plus/constants/constants.dart';
 import 'package:tv_plus/models/movie_model.dart';
 
 class TrackingOptionsImagePh extends StatelessWidget {
@@ -8,11 +9,11 @@ class TrackingOptionsImagePh extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+      borderRadius: Constants.getTrackingOptImageBorderRadius,
       child: Image.asset(
-        movieModel.image_path,
+        movieModel.imagePath,
         fit: BoxFit.cover,
-        height: 75,
+        height: 80,
         width: 120,
       ),
     );

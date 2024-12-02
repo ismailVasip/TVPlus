@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tv_plus/constants/constants.dart';
 import 'package:tv_plus/data/data_helper.dart';
 import 'package:tv_plus/models/movie_model.dart';
-import 'package:tv_plus/pages/categories_page.dart';
 import 'package:tv_plus/widgets/image_place_holder.dart';
-import 'package:tv_plus/widgets/sfm_page_category_fiter.dart';
-import 'package:tv_plus/widgets/sfm_page_filter.dart';
+import 'package:tv_plus/widgets/page_view_indicator.dart';
 import 'package:tv_plus/widgets/tracking_options.dart';
-import 'package:tv_plus/widgets/tracking_options_header.dart';
 
 class SpecialForMePage extends StatefulWidget {
   const SpecialForMePage({super.key});
@@ -17,73 +14,233 @@ class SpecialForMePage extends StatefulWidget {
 }
 
 class _SpecialForMePageState extends State<SpecialForMePage> {
-  bool _is_filter_active = false;
-  final List<MovieModel> _movies = DataHelper.movie_list;
-  List<Widget> get  _imagePages => List.generate(
-      _movies.length-12,
-          (index) => ImagePlaceHolder(movieModel: _movies[index],length : _movies.length-12)
+  late ScrollController _scrollController;
+  bool isCollapsed = false;
+  int pageViewIndex = 0;
+
+  final List<MovieModel> _movies = DataHelper.movieList;
+
+  List<Widget> get _imagePages => List.generate(
+    8,
+        (index) => ImagePlaceHolder(
+        movieModel: _movies[index],
+        length: 8
+    ),
   );
-  final int _active = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.hasClients) {
+      final offset = _scrollController.offset;
+      if (isCollapsed != (offset > 80)) {
+        setState(() {
+          isCollapsed = offset > 80;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return !_is_filter_active
-      ?_buildUnfilteredPage()
-      : _buildFilteredPage();
-  }
-  Widget _buildUnfilteredPage(){
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        backgroundColor: Constants.getScaffoldBackgroundColor,
+        centerTitle: true,
+        leadingWidth: 80,
+        leading: Image.asset(
+          "assets/images/tv_plus_logo.png",
+          height: 56,
+          width: 56,
+          fit: BoxFit.cover,
+        ),
+        title: AnimatedOpacity(
+          duration: const Duration(milliseconds: 200),
+          opacity: isCollapsed ? 1 : 0,
+          child: const Text(
+            "Bana Özel",
+            style: TextStyle(
+              fontSize: 19,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        actions: [
+          _buildAppBarActionsIcon(Icons.search),
+          const SizedBox(width: 8,),
+          _buildAppBarActionsIcon(Icons.person_3_rounded),
+          const SizedBox(width: 8,),
+        ],
+      ),
+      body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
+          Container(
+            color: Constants.getScaffoldBackgroundColor,
+            height: 35,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 GestureDetector(
-                    child: const FilterWidget(label: "Dizi")
+                  child: _buildFilteringSection("Dizi",14),
                 ),
+                const SizedBox(width: 8,),
                 GestureDetector(
-                    child: const FilterWidget(label: "Film")
+                  child: _buildFilteringSection("Film",13),
                 ),
+                const SizedBox(width: 8,),
                 GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        _is_filter_active = true;
-                      });
-                    },
-                    child:const FilterCategory(label: "Kategoriler")
+                  child: _buildCategorySection(),
                 ),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height*5/9,
-              width: double.infinity,
-              child: PageView.builder(
-                itemCount: _movies.length,
-                itemBuilder: (context,index) {
-                  return _imagePages[index];
-                },
-              ),
-            ),
+          const SizedBox(height: 4,),
+          Expanded(
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  backgroundColor: Constants.getScaffoldBackgroundColor,
+                  expandedHeight: screenHeight * 0.55,
+                  toolbarHeight: 0,
+                  elevation: 0,
+                  flexibleSpace: FlexibleSpaceBar(
+                  background: Column(
+                    children: [
+                      Expanded(
+                        child: PageView.builder(
+                          controller: PageController(
+                              initialPage: _imagePages.length * 1000,
+                              viewportFraction: 0.90
+                          ),
+                          onPageChanged: (index){
+                            setState(() {
+                              pageViewIndex = index % _imagePages.length;
+                            });
+                          },
+                          itemBuilder: (context, index) {
+                            final actualIndex = index % _imagePages.length;
+                            return Padding(
+                              padding: Constants.getPageViewPadding,
+                              child: _imagePages[actualIndex],
+                            );
+                          },
+                        ),
+                      ),
+                      PageViewIndicator(currentIndex: pageViewIndex)
+                    ],
+                  ),
+                                      ),
+                ),
+                const SliverToBoxAdapter(
+                  child:  SizedBox(
+                    height: 30,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: screenHeight,
+                    ),
+                    child: const Material(
+                        color: Constants.getScaffoldBackgroundColor,
+                        elevation: 7,
+                        child:Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TrackingOptions(header: "Yeni Gelenler",uniqueKey: 1),
+                            TrackingOptions(header: "En Çok İzlenen Filmler",uniqueKey: 2,),
+                            TrackingOptions(header: "Çok Yakında",uniqueKey: 3,),
+                            TrackingOptions(header: "Senin İçin Seçtiklerimiz",uniqueKey: 4,),
+                            TrackingOptions(header: "İzledin İzledin",uniqueKey: 5,),
+                            TrackingOptions(header: "Keşfedebileceklerin",uniqueKey: 6,),
+                            TrackingOptions(header: "Bunları Kaçırmamalısın",uniqueKey: 7,),
+                          ],
+                        )
+                    ),
+                  ),
+                ),
+              ],
+            )
           ),
-          const TrackingOptions(header: "Yeni Gelenler",),
-          const TrackingOptions(header: "En Çok İzlenen Filmler",),
-          const TrackingOptions(header: "Çok Yakında",),
-          const TrackingOptions(header: "Senin İçin Seçtiklerimiz",),
-          const TrackingOptions(header: "İzledin İzledin",),
-          const TrackingOptions(header: "Keşfedebileceklerin",),
-          const TrackingOptions(header: "Bunları Kaçırmamalısın",),
-
         ],
+      )
+    );
+  }
+  Widget _buildAppBarActionsIcon(IconData icon) {
+    return Icon(
+      icon,
+      size: 36,
+      color: Colors.white,
+    );
+  }
+  Widget _buildFilteringSection(String title,double fontSize){
+    return Container(
+      height: 35,
+      width: 80,
+      decoration: BoxDecoration(
+          color: Constants.getScaffoldBackgroundColor,
+          border: Border.all(color: Colors.white70,width: 1),
+          borderRadius: BorderRadius.circular(4)
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: TextStyle(
+              fontSize: fontSize,
+              color: Colors.white
+          ),
+        ),
       ),
     );
   }
-  Widget _buildFilteredPage(){
-    return const CategoriesPage();
+  Widget _buildCategorySection(){
+    return Container(
+      height: 35,
+      width: 145,
+      decoration: BoxDecoration(
+          color: Constants.getScaffoldBackgroundColor,
+          border: Border.all(color: Colors.white70,width:1),
+          borderRadius: BorderRadius.circular(4)
+      ),
+      child: const Center(
+        child:  Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Kategoriler",
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white
+              ),
+            ),
+            SizedBox(width: 2,),
+            Icon(
+              Icons.keyboard_arrow_down,
+              size: 19,
+              color: Colors.white,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

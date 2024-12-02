@@ -1,14 +1,18 @@
-import 'package:flutter/material.dart';
 class MovieModel {
-  final String movie_name;
+  final String movieName;
   final List<String> categories;
-  final String image_path;
+  final String imagePath;
 
-  MovieModel({required this.movie_name, required this.categories, required this.image_path});
+  MovieModel(
+      {
+        required this.movieName,
+        required this.categories,
+        required this.imagePath
+      }
+      );
 
   @override
   String toString() {
-    // TODO: implement toString
     return categories.join(" , ");
   }
 }

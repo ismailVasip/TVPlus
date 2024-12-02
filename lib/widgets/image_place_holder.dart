@@ -1,69 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:tv_plus/constants/constants.dart';
 import 'package:tv_plus/models/movie_model.dart';
 
 class ImagePlaceHolder extends StatelessWidget {
   final MovieModel movieModel;
   final int length;
-  final int _active = 0;
-  const ImagePlaceHolder({super.key,required this.movieModel,required this.length});
+  const ImagePlaceHolder(
+      {
+        super.key,required this.movieModel,
+        required this.length
+      });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-          child: Image.asset(
-            movieModel.image_path,
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
+        GestureDetector(
+          onTap: (){},
+          child: ClipRRect(
+            borderRadius: Constants.getPageViewImageBorderRadius,
+            child: Image.asset(
+              movieModel.imagePath,
+              fit: BoxFit.cover,
+              height: double.infinity,
+              width: double.infinity,
+            ),
           ),
         ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 150,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                movieModel.movie_name,
-                style: const TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
-                ),
-              ),
-              Text(
-                movieModel.toString(),
-                style: const TextStyle(
-                  fontSize: 21,
-                  color: Colors.white60
-                ),
-              )
-            ],
-          ),
-        ),
-        Positioned(
-          bottom: 10,
-          left: 0,
-          right: 0,
+        Positioned.fill(
           child: Container(
-            color : Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                    length,
-                    (index) => Padding(
-                    padding:  const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: CircleAvatar(
-                      radius: 6,
-                      backgroundColor: _active == index
-                          ? Colors.white
-                          : Colors.grey,
-                    ),
-                  )
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent, // Üst kısım tamamen şeffaf
+                  Constants.getScaffoldBackgroundColor.withOpacity(1),
+                ],
               ),
             ),
           ),
@@ -71,52 +44,83 @@ class ImagePlaceHolder extends StatelessWidget {
         Positioned(
           left: 0,
           right: 0,
-          bottom: 50,
+          bottom: 100,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                movieModel.movieName,
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+                ),
+              ),
+              Text(
+                movieModel.toString(),
+                style: const TextStyle(
+                  fontSize: 19,
+                  color: Colors.white60
+                ),
+              )
+            ],
+          ),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 30,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
             children: [
               TextButton(
-                onPressed: (){
-
-                },
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero, // İç padding kaldırılıyor
+                  minimumSize: Size(0, 0), // Varsayılan minimum boyut kaldırılıyor
+                ),
+                onPressed: (){},
                 child: Container(
                   alignment: Alignment.center,
-                  width: 180,
-                  height: 60,
+                  width: 160,
+                  height: 50,
                   decoration: BoxDecoration(
-                    color : Colors.amber,
-                    borderRadius: BorderRadius.circular(7.0)
+                      color : Colors.yellow,
+                      borderRadius: BorderRadius.circular(7.0)
                   ),
                   child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         Icons.play_arrow,
                         color: Colors.black,
-                        size: 23,
+                        size: 19,
                       ),
+                      SizedBox(width: 4,),
                       Text(
                         "Hemen İzle",
                         style: TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.bold,
-                          color : Colors.black
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                            color : Colors.black
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-
+              const SizedBox(width: 8,),
               TextButton(
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero, // İç padding tamamen kaldırılıyor
+                  minimumSize: Size(0, 0), // Varsayılan minimum boyut kaldırılıyor
+                ),
                 onPressed: (){
 
                 },
                 child: Container(
                   alignment: Alignment.center,
                   width: 60,
-                  height: 60,
+                  height: 50,
                   decoration: BoxDecoration(
                       color : Colors.grey.shade900,
                       borderRadius: BorderRadius.circular(7.0)
@@ -124,13 +128,13 @@ class ImagePlaceHolder extends StatelessWidget {
                   child: const Icon(
                     Icons.add,
                     color: Colors.white,
-                    size: 41,
+                    size: 40,
                   ),
                 ),
-              )
+              ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
