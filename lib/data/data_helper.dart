@@ -1,6 +1,11 @@
 import 'package:tv_plus/models/movie_model.dart';
 
 class DataHelper{
+  static List<MovieModel> downloadedMovies = [
+    MovieModel(movieName: "Acil Teslimat", categories: ["Fantastik"], imagePath: "assets/images/acil_teslimat.jpg"),
+    MovieModel(movieName: "Aile Arasında", categories: ["Aile","Komedi"], imagePath: "assets/images/aile_arasında.jpg"),
+  ];
+
   static List<MovieModel> movieList = [
     MovieModel(movieName: "Acil Teslimat", categories: ["Fantastik"], imagePath: "assets/images/acil_teslimat.jpg"),
     MovieModel(movieName: "Aile Arasında", categories: ["Aile","Komedi"], imagePath: "assets/images/aile_arasında.jpg"),
@@ -65,4 +70,5 @@ class DataHelper{
 
     return list;
   }
+
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tv_plus/pages/my_downloads.dart';
+import 'package:tv_plus/pages/my_lists.dart';
+import 'package:tv_plus/pages/shots.dart';
 import 'package:tv_plus/pages/special_for_me_page.dart';
 import 'package:tv_plus/pages/tv_page.dart';
 
@@ -14,6 +17,9 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _tabs = [
     const SpecialForMePage(),
     const TvPage(),
+    const Shots(),
+    const MyLists(),
+    MyDownloads()
   ];
   void _onItemTapped(int index){
     setState(() {

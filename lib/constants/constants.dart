@@ -12,6 +12,10 @@ class Constants{
   static const EdgeInsets getTrackingOptionsHeaderPadding =  EdgeInsets.all(16.0);
   static const EdgeInsets getPageViewIndicatorPadding =  EdgeInsets.symmetric(horizontal: 5.0);
   static const BorderRadius getPageViewIndicatorBorderRadius =  BorderRadius.all(Radius.circular(16.0));
+  static const BorderRadius getMyDownloadsEmptyContentButtonBRadius = BorderRadius.all(Radius.circular(36));
+  static const BorderRadius getMyDownloadsEmptyContentIconBRadius = BorderRadius.all(Radius.circular(50));
+  static const EdgeInsets getMyDownloadDiscoverNewContentMargin = EdgeInsets.symmetric(horizontal: 40, vertical: 40);
+  static const BorderRadius getMyDownloadDiscoverNewContentBorderRadius = BorderRadius.all(Radius.circular(50));
 
   static const String appBarTitle = "TV+";
   static  TextStyle getAppBarTitleStyle() {
