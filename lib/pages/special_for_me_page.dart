@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tv_plus/constants/constants.dart';
 import 'package:tv_plus/data/data_helper.dart';
 import 'package:tv_plus/models/movie_model.dart';
+import 'package:tv_plus/pages/movie_details.dart';
 import 'package:tv_plus/widgets/image_place_holder.dart';
 import 'package:tv_plus/widgets/page_view_indicator.dart';
 import 'package:tv_plus/widgets/tracking_options.dart';
@@ -138,9 +139,16 @@ class _SpecialForMePageState extends State<SpecialForMePage> {
                           },
                           itemBuilder: (context, index) {
                             final actualIndex = index % _imagePages.length;
-                            return Padding(
-                              padding: Constants.getPageViewPadding,
-                              child: _imagePages[actualIndex],
+                            return GestureDetector(
+                              onTap: (){
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => MovieDetails(movie: _movies[actualIndex]))
+                                );
+                              },
+                              child: Padding(
+                                padding: Constants.getPageViewPadding,
+                                child: _imagePages[actualIndex],
+                              ),
                             );
                           },
                         ),

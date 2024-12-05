@@ -15,16 +15,13 @@ class ImagePlaceHolder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GestureDetector(
-          onTap: (){},
-          child: ClipRRect(
-            borderRadius: Constants.getPageViewImageBorderRadius,
-            child: Image.asset(
-              movieModel.imagePath,
-              fit: BoxFit.cover,
-              height: double.infinity,
-              width: double.infinity,
-            ),
+        ClipRRect(
+          borderRadius: Constants.getPageViewImageBorderRadius,
+          child: Image.asset(
+            movieModel.imagePath,
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
           ),
         ),
         Positioned.fill(

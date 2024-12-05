@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tv_plus/constants/constants.dart';
 import 'package:tv_plus/data/data_helper.dart';
 import 'package:tv_plus/models/movie_model.dart';
+import 'package:tv_plus/pages/movie_details.dart';
 import 'package:tv_plus/widgets/tracking_options_image_ph.dart';
 
 class TrackingOptionsBody extends StatelessWidget {
@@ -21,7 +22,14 @@ class TrackingOptionsBody extends StatelessWidget {
         itemBuilder: (context,index) {
           return Padding(
             padding:Constants.getTrackingOptionsBodyPadding,
-            child: TrackingOptionsImagePh(movieModel: _movies[index]),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MovieDetails(movie: _movies[index],))
+                );
+              },
+              child: TrackingOptionsImagePh(movieModel: _movies[index])
+            ),
           );
         },
       ),

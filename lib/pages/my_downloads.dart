@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 import 'package:tv_plus/constants/constants.dart';
-import 'package:tv_plus/data/data_helper.dart';
-import 'package:tv_plus/models/movie_model.dart';
+import 'package:tv_plus/data/my_downloaded.dart';
 import 'package:tv_plus/widgets/classic_appbar.dart';
 import 'package:tv_plus/widgets/my_downloads_empty_content.dart';
 
@@ -13,19 +13,21 @@ class MyDownloads extends StatefulWidget {
 }
 
 class _MyDownloadsState extends State<MyDownloads> {
-  final List<MovieModel> movies = DataHelper.downloadedMovies;
 
   @override
   Widget build(BuildContext context) {
+    final myDownloadedMovies = Provider.of<MyDownloadedMovies>(context);
+    final myDownloadedMoviesList =  myDownloadedMovies.myDownloadedMovies;
+
     return Scaffold(
       appBar:const ClassicAppbar(title: "İNDİRDİKLERİM"),
-      body: !movies.isEmpty
+      body: myDownloadedMoviesList.isNotEmpty
         ? CustomScrollView(
         slivers: [
           SlidableAutoCloseBehavior(
             child: SliverList(
               delegate: SliverChildBuilderDelegate(
-                childCount: movies.length,
+                childCount: myDownloadedMoviesList.length,
                   (context,index){
                     return Slidable(
                       key: ValueKey(index),
@@ -37,9 +39,7 @@ class _MyDownloadsState extends State<MyDownloads> {
                         children: [
                           SlidableAction(
                             onPressed: (context){
-                              setState(() {
-                                movies.removeAt(index);
-                              });
+                              myDownloadedMovies.deleteMovie(myDownloadedMoviesList.elementAt(index));
                             },
                             backgroundColor: Colors.redAccent,
                             foregroundColor: Colors.white,
@@ -49,19 +49,19 @@ class _MyDownloadsState extends State<MyDownloads> {
                       ),
                       child: ListTile(
                         leading: Image.asset(
-                          movies[index].imagePath,
+                          myDownloadedMoviesList[index].imagePath,
                           width: 100,
                           height: 200,
                           fit: BoxFit.cover,
                         ),
                         title: Text(
-                          movies[index].movieName,
+                          myDownloadedMoviesList[index].movieName,
                           style: const TextStyle(
                               color: Colors.white,
                               overflow: TextOverflow.ellipsis
                           ),
                         ),
-                        subtitle: Row(
+                        subtitle: const Row(
                           children: [
                             Text("120 dk",style: TextStyle(color: Colors.white30,fontSize: 14),),
                             Text(" | ",style: TextStyle(color: Colors.white30,fontSize: 14),),

@@ -16,6 +16,13 @@ class Constants{
   static const BorderRadius getMyDownloadsEmptyContentIconBRadius = BorderRadius.all(Radius.circular(50));
   static const EdgeInsets getMyDownloadDiscoverNewContentMargin = EdgeInsets.symmetric(horizontal: 40, vertical: 40);
   static const BorderRadius getMyDownloadDiscoverNewContentBorderRadius = BorderRadius.all(Radius.circular(50));
+  static const EdgeInsets getMovieDetailsSliverAppBarMargin = EdgeInsets.symmetric(horizontal: 30);
+  static const EdgeInsets getMovieDetailsBodyMargin = EdgeInsets.symmetric(horizontal: 15);
+  static const BorderRadius getMovieDetailsButtonRadius = BorderRadius.all(Radius.circular(8));
+  static const EdgeInsets getMovieDetailsQuickActionPadding = EdgeInsets.symmetric(vertical: 16.0);
+  static const EdgeInsets getMovieDetailsAgeWarningPadding = EdgeInsets.all(8.0);
+  static const EdgeInsets getMovieDetailsSimilarTabPadding = EdgeInsets.all(8.0);
+  static const BorderRadius getMovieDetailsSimilarTabBorderRadius= BorderRadius.all(Radius.circular(4));
 
   static const String appBarTitle = "TV+";
   static  TextStyle getAppBarTitleStyle() {

@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tv_plus/constants/constants.dart';
+import 'package:tv_plus/data/my_downloaded.dart';
 import 'package:tv_plus/pages/home_page.dart';
+import 'package:tv_plus/pages/my_downloads.dart';
 
 void main() {
-  runApp(const TVPlusApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => MyDownloadedMovies()),
+    ],
+    child: const TVPlusApp(),
+  ));
 }
 
 class TVPlusApp extends StatelessWidget {
