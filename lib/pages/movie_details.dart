@@ -4,6 +4,7 @@ import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import 'package:tv_plus/constants/constants.dart';
 import 'package:tv_plus/data/data_helper.dart';
 import 'package:tv_plus/data/my_downloaded.dart';
+import 'package:tv_plus/data/my_watching_list.dart';
 import 'package:tv_plus/models/movie_model.dart';
 
 class MovieDetails extends StatefulWidget {
@@ -53,10 +54,10 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   @override
   Widget build(BuildContext context) {
-    //MovieModel movie = DataHelper.movieList.elementAt(widget.movieId);
     expandedHeight = MediaQuery.of(context).size.height*0.55;
 
     final myDownloadedMovies = Provider.of<MyDownloadedMovies>(context);
+    final myWatchingList = Provider.of<MyWatchingList>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -232,7 +233,24 @@ class _MovieDetailsState extends State<MovieDetails> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _buildQuickAction(Icons.add,"Listeye Ekle"),
+                            GestureDetector(
+                              onTap: (){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      "Listeye Eklendi!",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 19
+                                      ),
+                                    ),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                                myWatchingList.addMovie(widget.movie);
+                              },
+                              child: _buildQuickAction(Icons.add,"Listeye Ekle"),
+                            ),
                             _buildQuickAction(Icons.thumb_up_alt_outlined,"Puan Ver"),
                             GestureDetector(
                               onTap: (){
@@ -386,13 +404,13 @@ class _MovieDetailsState extends State<MovieDetails> {
                 ),
                 tabs: [
                   if(length == 3)
-                    Tab(
+                    const Tab(
                       text: "Bölümler",
                     ),
-                  Tab(
+                  const Tab(
                     text: "Benzerleri",
                   ),
-                  Tab(
+                  const Tab(
                     text: "Ekstralar",
                   )
                 ],
@@ -421,7 +439,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                 color: Colors.white12,
                               borderRadius: BorderRadius.all(Radius.circular(8))
                             ),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(

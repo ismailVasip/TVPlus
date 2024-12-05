@@ -5,7 +5,13 @@ import 'package:tv_plus/widgets/tracking_options_header.dart';
 class TrackingOptions extends StatelessWidget {
   final String header;
   final int uniqueKey;
-  const TrackingOptions({super.key,required this.header,required this.uniqueKey});
+  final bool isTvPage;
+  const TrackingOptions({
+    super.key,
+    required this.header,
+    required this.uniqueKey,
+    required this.isTvPage
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +19,7 @@ class TrackingOptions extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TrackingOptionsHeader(header: header),
-        TrackingOptionsBody(uniqueKey: uniqueKey,)
+        TrackingOptionsBody(uniqueKey: uniqueKey,isTvPage:isTvPage)
       ],
     );
   }

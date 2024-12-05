@@ -23,6 +23,10 @@ class Constants{
   static const EdgeInsets getMovieDetailsAgeWarningPadding = EdgeInsets.all(8.0);
   static const EdgeInsets getMovieDetailsSimilarTabPadding = EdgeInsets.all(8.0);
   static const BorderRadius getMovieDetailsSimilarTabBorderRadius= BorderRadius.all(Radius.circular(4));
+  static const EdgeInsets getTvPageTrackingOptionsHeaderMargin = EdgeInsets.all(16);
+  static const EdgeInsets getTvPageTrackingOptionsBodyMargin = EdgeInsets.symmetric(horizontal: 8);
+  static const EdgeInsets getTvPageTrackingOptionsBodyPadding= EdgeInsets.all(16.0);
+  static const BorderRadius getTvPageTrackingOptionsBodyBorderRadius= BorderRadius.all(Radius.circular(8));
 
   static const String appBarTitle = "TV+";
   static  TextStyle getAppBarTitleStyle() {

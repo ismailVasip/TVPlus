@@ -1,4 +1,5 @@
 import 'package:tv_plus/models/movie_model.dart';
+import 'package:tv_plus/models/tv_model.dart';
 
 class DataHelper{
 
@@ -68,5 +69,63 @@ class DataHelper{
 
     return list;
   }
+  static List<TvModel> filteredListTv(int key){
+    List<TvModel> list;
+    switch(key){
+      case 8:
+        list = tvList.where((x) => x.category=="Kanal").toList();
+        break;
+      case 9:
+        list = tvList.where((x) => x.category=="Kanal" && x.name.length<5).toList();
+        break;
+      case 10:
+        list = tvList.where((x) => x.name == "Sinema").toList();
+        break;
+      case 11:
+        list = tvList.where((x) => x.category == "Dizi").toList();
+        break;
+      case 12:
+        list = tvList.where((x) => x.category == "Spor").toList();
+        break;
+      case 13:
+        list =  tvList.where((x) => x.category == "Belgesel").toList();
+        break;
+      case 14:
+        list = tvList.where((x) => x.category == "Eğlence" || x.category == "Yaşam").toList();
+        break;
+      case 15:
+        list = tvList.where((x) => x.category == "Tarih").toList();
+        break;
+        default:
+          list = tvList;
+          break;
+    }
 
+    return list;
+  }
+
+  static List<TvModel> tvList = [
+    TvModel(id : 1, category :"Kanal" , name : "Blue TV 1", imagePath:"assets/images/bluetv1.png"),
+    TvModel(id : 2, category :"Kanal" , name : "Blue TV 2", imagePath:"assets/images/bluetv2.png"),
+    TvModel(id : 3, category :"Kanal" , name:"Epic", imagePath:"assets/images/epic.png"),
+    TvModel(id : 4, category :"Kanal" , name : "FX", imagePath:"assets/images/fx.png"),
+    TvModel(id : 5, category : "Kanal", name : "Sinema", imagePath:"assets/images/sinema.png"),
+    TvModel(id : 6, category : "Kanal", name: "Star", imagePath:"assets/images/star.png"),
+    TvModel(id : 7, category :"Spor" , name:"Basket", imagePath:"assets/images/basket.jpg"),
+    TvModel(id : 8, category : "Belgesel", name:"TRT Belgesel", imagePath:"assets/images/belgesel.jpg"),
+    TvModel(id : 9, category :"Eğlence" , name:"Çocuk", imagePath:"assets/images/cocuk.jpg"),
+    TvModel(id : 10, category :"Yaşam", name:"Doğa", imagePath:"assets/images/doga.jpg"),
+    TvModel(id : 11, category :"Eğlence" , name:"Eğlence", imagePath:"assets/images/eglence.jpg"),
+    TvModel(id : 12, category : "Spor", name:"Futbol", imagePath:"assets/images/futbol.jpg"),
+    TvModel(id : 13, category :"Yaşam" , name:"Gerçekler", imagePath:"assets/images/gercekler.jpg"),
+    TvModel(id : 14, category : "Yaşam", name:"Gündem", imagePath:"assets/images/gundem.jpg"),
+    TvModel(id : 15, category : "Dizi", name:"Hurda", imagePath:"assets/images/hurda.jpg"),
+    TvModel(id : 16, category : "Dizi", name:"Korkusuz", imagePath:"assets/images/korkusuz.jpg"),
+    TvModel(id : 17, category :"Dizi" , name:"Masumlar Apartmanı", imagePath:"assets/images/masumlar.jpg"),
+    TvModel(id : 18, category : "Dizi", name:"Osman", imagePath:"assets/images/osman.jpg"),
+    TvModel(id : 19, category : "Dizi", name:"Sahipsizler", imagePath:"assets/images/sahipsizler.jpg"),
+    TvModel(id : 20, category : "Spor", name:"Spor", imagePath:"assets/images/spor.jpg"),
+    TvModel(id : 21, category : "Tarih", name:"Tarih", imagePath:"assets/images/tarih.jpg"),
+    TvModel(id : 22, category :"Spor" , name:"Bilardo", imagePath:"assets/images/top.jpg")
+  ];
 }

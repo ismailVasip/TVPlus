@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tv_plus/constants/constants.dart';
+import 'package:tv_plus/data/my_watching_list.dart';
 import 'package:tv_plus/models/movie_model.dart';
 
 class ImagePlaceHolder extends StatelessWidget {
   final MovieModel movieModel;
-  final int length;
+
   const ImagePlaceHolder(
       {
         super.key,required this.movieModel,
-        required this.length
       });
 
   @override
   Widget build(BuildContext context) {
+    final myWatchingList = Provider.of<MyWatchingList>(context);
+
     return Stack(
       children: [
         ClipRRect(
@@ -112,7 +115,19 @@ class ImagePlaceHolder extends StatelessWidget {
                   minimumSize: Size(0, 0), // Varsayılan minimum boyut kaldırılıyor
                 ),
                 onPressed: (){
-
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "Listeye Eklendi!",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 19
+                        ),
+                      ),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                  myWatchingList.addMovie(movieModel);
                 },
                 child: Container(
                   alignment: Alignment.center,

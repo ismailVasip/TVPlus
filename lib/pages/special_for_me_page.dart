@@ -25,7 +25,6 @@ class _SpecialForMePageState extends State<SpecialForMePage> {
     8,
         (index) => ImagePlaceHolder(
         movieModel: _movies[index],
-        length: 8
     ),
   );
 
@@ -174,13 +173,13 @@ class _SpecialForMePageState extends State<SpecialForMePage> {
                         child:Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            TrackingOptions(header: "Yeni Gelenler",uniqueKey: 1),
-                            TrackingOptions(header: "En Çok İzlenen Filmler",uniqueKey: 2,),
-                            TrackingOptions(header: "Çok Yakında",uniqueKey: 3,),
-                            TrackingOptions(header: "Senin İçin Seçtiklerimiz",uniqueKey: 4,),
-                            TrackingOptions(header: "İzledin İzledin",uniqueKey: 5,),
-                            TrackingOptions(header: "Keşfedebileceklerin",uniqueKey: 6,),
-                            TrackingOptions(header: "Bunları Kaçırmamalısın",uniqueKey: 7,),
+                            TrackingOptions(header: "Yeni Gelenler",uniqueKey: 1,isTvPage: false),
+                            TrackingOptions(header: "En Çok İzlenen Filmler",uniqueKey: 2,isTvPage: false),
+                            TrackingOptions(header: "Çok Yakında",uniqueKey: 3,isTvPage: false),
+                            TrackingOptions(header: "Senin İçin Seçtiklerimiz",uniqueKey: 4,isTvPage: false),
+                            TrackingOptions(header: "İzledin İzledin",uniqueKey: 5,isTvPage: false),
+                            TrackingOptions(header: "Keşfedebileceklerin",uniqueKey: 6,isTvPage: false),
+                            TrackingOptions(header: "Bunları Kaçırmamalısın",uniqueKey: 7,isTvPage: false),
                           ],
                         )
                     ),

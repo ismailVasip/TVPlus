@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:tv_plus/constants/constants.dart';
 import 'package:tv_plus/data/data_helper.dart';
-import 'package:tv_plus/models/movie_model.dart';
 import 'package:tv_plus/pages/movie_details.dart';
 import 'package:tv_plus/widgets/tracking_options_image_ph.dart';
 
 class TrackingOptionsBody extends StatelessWidget {
   final int uniqueKey;
-  const TrackingOptionsBody({super.key,required this.uniqueKey});
+  final bool isTvPage;
+  const TrackingOptionsBody({super.key,required this.uniqueKey,required this.isTvPage});
 
-  List<MovieModel>  get _movies => DataHelper.filteredList(uniqueKey);
+  get list => !isTvPage ? DataHelper.filteredList(uniqueKey)
+                             : DataHelper.filteredListTv(uniqueKey);
 
 
   @override
@@ -18,17 +19,19 @@ class TrackingOptionsBody extends StatelessWidget {
       height: 180,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: _movies.length,
+        itemCount: list.length,
         itemBuilder: (context,index) {
           return Padding(
             padding:Constants.getTrackingOptionsBodyPadding,
             child: GestureDetector(
               onTap: (){
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => MovieDetails(movie: _movies[index],))
-                );
+                if(!isTvPage){
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MovieDetails(movie: list[index],))
+                  );
+                }
               },
-              child: TrackingOptionsImagePh(movieModel: _movies[index])
+              child: TrackingOptionsImagePh(model: list[index])
             ),
           );
         },
