@@ -14,7 +14,9 @@ class SpecialForMePage extends StatefulWidget {
   State<SpecialForMePage> createState() => _SpecialForMePageState();
 }
 
-class _SpecialForMePageState extends State<SpecialForMePage> {
+class _SpecialForMePageState extends State<SpecialForMePage>
+                                      with TickerProviderStateMixin{
+
   late ScrollController _scrollController;
   bool isCollapsed = false;
   int pageViewIndex = 0;
@@ -28,12 +30,27 @@ class _SpecialForMePageState extends State<SpecialForMePage> {
     ),
   );
 
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
+
+
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-  }
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    _scaleAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.fastOutSlowIn,
+    );
+
+    }
 
   @override
   void dispose() {
@@ -44,12 +61,11 @@ class _SpecialForMePageState extends State<SpecialForMePage> {
 
   void _scrollListener() {
     if (_scrollController.hasClients) {
+      final maxScrollOffset = MediaQuery.of(context).size.height * 0.55;
       final offset = _scrollController.offset;
-      if (isCollapsed != (offset > 80)) {
-        setState(() {
-          isCollapsed = offset > 80;
-        });
-      }
+
+      final normalizedValue = (offset / maxScrollOffset).clamp(0.0, 1.0);
+      _animationController.value = normalizedValue;
     }
   }
 
@@ -70,10 +86,9 @@ class _SpecialForMePageState extends State<SpecialForMePage> {
           width: 56,
           fit: BoxFit.cover,
         ),
-        title: AnimatedOpacity(
-          duration: const Duration(milliseconds: 200),
-          opacity: isCollapsed ? 1 : 0,
-          child: const Text(
+        title: ScaleTransition(
+          scale: _scaleAnimation,
+          child: Text(
             "Bana Özel",
             style: TextStyle(
               fontSize: 19,

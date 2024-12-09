@@ -13,12 +13,15 @@ class TvPage extends StatefulWidget {
   State<TvPage> createState() => _TvPageState();
 }
 
-class _TvPageState extends State<TvPage> {
+class _TvPageState extends State<TvPage> with TickerProviderStateMixin{
   late ScrollController _scrollController;
   bool isCollapsed = false;
   int pageViewIndex = 0;
 
   final List<TvModel> channels = DataHelper.tvList.where((x)=> x.category == "Kanal").toList();
+
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
 
   List<Widget> get  pageViewItems => List.generate(
       channels.length,
@@ -32,6 +35,16 @@ class _TvPageState extends State<TvPage> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    _scaleAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.fastOutSlowIn,
+    );
   }
 
   @override
@@ -43,12 +56,11 @@ class _TvPageState extends State<TvPage> {
 
   void _scrollListener() {
     if (_scrollController.hasClients) {
+      final maxScrollOffset = MediaQuery.of(context).size.height * 0.55;
       final offset = _scrollController.offset;
-      if (isCollapsed != (offset > 80)) {
-        setState(() {
-          isCollapsed = offset > 80;
-        });
-      }
+
+      final normalizedValue = (offset / maxScrollOffset).clamp(0.0, 1.0);
+      _animationController.value = normalizedValue;
     }
   }
 
@@ -71,9 +83,8 @@ class _TvPageState extends State<TvPage> {
             width: 56,
             fit: BoxFit.cover,
           ),
-          title: AnimatedOpacity(
-            duration: const Duration(milliseconds: 200),
-            opacity: isCollapsed ? 1 : 0,
+          title: ScaleTransition(
+            scale: _scaleAnimation,
             child: const Text(
               "TV",
               style: TextStyle(
